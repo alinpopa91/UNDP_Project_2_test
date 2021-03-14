@@ -1,0 +1,15 @@
+﻿@model List<UNDP_Project1.Models.TeamMember>
+
+<table class="table-custom center">
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr class="bg-black">
+            <th>@item.Name</th>
+            <th>@item.Gender</th>
+            <th>@item.DateOfBirth</th>
+            <th>@item.ContactNo</th>
+        </tr>
+        }
+    </tbody>
+</table>
