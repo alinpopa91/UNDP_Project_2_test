@@ -1,0 +1,73 @@
+﻿@model UNDP_Project1.Models.Team
+@using UNDP_Project1.Models;
+@{
+    List<string> errors = new List<string>();
+    errors = TempData["AddTeamErrors"] as List<string>;
+    bool? success = TempData["AddTeamSuccess"] as bool?;
+}
+
+<h1 id="tableLabel center">Team Management</h1>
+
+<p class="text-center">List of team components and approvial status</p>
+
+@section css
+{
+    <link href="@Url.Content("~/Content/table.css")" rel="stylesheet" />
+}
+
+@if (success == true)
+{
+    <p class="text-success">Team has been saved</p>
+}
+
+@if (TempData["AddTeamErrors"] != null)
+{
+    foreach (var item in errors)
+    {
+        <p class="text-danger">@item</p>
+    }
+}
+
+@using (Html.BeginForm("AddTeam", "Home", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <table class="table-custom center">
+        <tr>
+            <th class="bg-blue">Team Details</th>
+        </tr>
+        <tr>
+            <th class="bg-gray">Team Name</th>
+        </tr>
+        <tr>
+            <th class="text">@Html.TextBoxFor(model => model.TeamName, new { @class = "form-control center textBox" })</th>
+        </tr>
+        <tr>
+            <th class="bg-gray">Team Description</th>
+        </tr>
+        <tr>
+            <th class="text">@Html.TextAreaFor(model => model.TeamDescription, new { @class = "form-control center textBox" })</th>
+        </tr>
+        <tr>
+            <th class="bg-gray">Team Member</th>
+        </tr>
+        <tr>
+            <th>
+                <div id="teamMemberDIV"></div>
+            </th>
+        </tr>
+
+        <tr>
+            <th style="text-align:center;">
+                <input type="submit" class="formButton add-member-btn center" value="Save" />
+                <input type="button" class="formButton add-member-btn center" value="Exit" />
+            </th>
+        </tr>
+    </table>
+
+}
+
+<tr>
+    <th>@Html.Partial("AddUserPartialView", new TeamMember())</th>
+</tr>
+
+

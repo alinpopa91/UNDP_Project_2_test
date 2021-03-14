@@ -1,0 +1,43 @@
+﻿@model UNDP_Project1.Models.TeamMember
+@using UNDP_Project1.Models.Wrappers;
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/module.js")"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.js"></script>
+
+@using (Ajax.BeginForm("AddNewTeamMember", "Home", new AjaxOptions
+    {
+        InsertionMode = InsertionMode.Replace,
+        HttpMethod = "GET",
+        OnSuccess = "updateSuccess",
+        OnFailure = "updateError"
+    }, new { @id = "addteamMember" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.TeamID)
+    <table class="table-custom" aria-labelledby="tableLabel">
+        <thead>
+            <tr class="bg-purpleblue">
+                <th>Name</th>
+                <th>Gender</th>
+                <th>DateOfBirth</th>
+                <th>Contact No.</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Html.TextBoxFor(model => model.Name)</td>
+                <td>
+                    @Html.DropDownListFor(model => model.Gender, new SelectList(
+                                  StaticData.Genders,
+                                  "Name",
+                                  "Name",
+                                  Model.Gender))
+            </td>
+            <td>@Html.TextBoxFor(model => model.DateOfBirth, "{0:d MMM yyyy}", new { @class = "datepicker", type = "date" })</td>
+            <td>@Html.TextBoxFor(model => model.ContactNo, new { onkeypress = "return isNumberKey(event)" })</td>
+        </tr>
+    </tbody>
+</table>
+
+    <input type="button" onclick="SubmitAddMembers()" class="add-member-btn" value="Add New Member" />
+}
